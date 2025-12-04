@@ -1,0 +1,6 @@
+# ambiente virtual 'venv'
+ocr_guild_rank/
+
+# arquivos compilados python
+__pycache__/
+*.pyc
