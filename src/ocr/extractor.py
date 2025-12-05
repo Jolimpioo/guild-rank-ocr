@@ -47,14 +47,21 @@ def processar_imagem(caminho_imagem: str) -> list[dict]:
 
             # correcoes pos OCR
             if campo == 'nome' and texto:
-                texto = corrigir_nome(texto)
+                nome_corrigido, status = corrigir_nome(texto)
+                linha_dados['nome'] = nome_corrigido
+                linha_dados['status'] = status 
             else:
                 texto = limpar_campo(campo, texto)
+                linha_dados[campo] = texto if texto else ""
 
-            linha_dados[campo] = texto if texto else ""
+        if 'status' not in linha_dados:
+            linha_dados['status'] = ""
 
-        if linha_dados.get('nome'):
-            dados_extraidos.append(linha_dados)
-            print(f"{linha_dados['nome']:10} | {linha_dados.get('frequencia', 'N/A'):3} | {linha_dados.get('dano', '0'):10}")
+        dados_extraidos.append(linha_dados)
+
+
+        status_display = f" [{linha_dados['status']}]" if linha_dados['status'] else ""
+        print(f"{linha_dados.get('nome', 'VAZIO'):10} | {linha_dados.get('frequencia', 'N/A'):3} | {linha_dados.get('dano', '0'):10}{status_display}")
+    
     
     return dados_extraidos

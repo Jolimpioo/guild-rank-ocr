@@ -3,7 +3,7 @@ NOMES_VALIDOS = [
 "Hela", "Cley", "Ino", "Krelian", "Dennis", "Dklina", "ヴァルディネイ", "Frisk", "Argila",
 "SkyLord", "Kanao", "Thorm", "Snowers", "Drymus", "ExWizzard", "Song",
 "Cosmos", "Aurora", "Ramigam", "Capibara", "カミナリ", "Algebra", "Carlinhozz",
-"utiago", "Megera", "Wagnero", "CAPETTINI", "math", "kia", "mesax", "Lux"
+"utiago", "Megera", "Wagnero", "CAPETTINI", "math", "kia", "mesax", "Lux", "FROSTHEART"
 ]
 
 REGIOES_BASE = {

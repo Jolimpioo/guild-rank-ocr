@@ -2,10 +2,10 @@ from rapidfuzz import process, fuzz
 from src.config import NOMES_VALIDOS
 from src.utils.text_cleaning import limpar_nome
 
-def corrigir_nome(texto_ocr: str) -> str:
+def corrigir_nome(texto_ocr: str) -> tuple[str, str]:
     texto_limpo = limpar_nome(texto_ocr)
     if not texto_limpo:
-        return ""
+        return ("", 'revisar')
 
     scorers = [
         (fuzz.partial_ratio, 75),
@@ -19,7 +19,9 @@ def corrigir_nome(texto_ocr: str) -> str:
             texto_limpo, NOMES_VALIDOS, scorer=scorer
         )
         if similaridade >= limiar:
-            return melhor_nome
+            return (melhor_nome, "")
 
+    if len(texto_limpo) > 2:
+        return (texto_limpo, 'revisar')
 
-    return texto_limpo if len(texto_limpo) > 2 else ""
+    return texto_limpo if texto_limpo else 'revisar'
