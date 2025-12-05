@@ -5,7 +5,7 @@ from src.utils.text_cleaning import limpar_nome
 def corrigir_nome(texto_ocr: str) -> tuple[str, str]:
     texto_limpo = limpar_nome(texto_ocr)
     if not texto_limpo:
-        return ("", 'revisar')
+        return ("", "revisar")
 
     scorers = [
         (fuzz.partial_ratio, 75),
@@ -22,6 +22,6 @@ def corrigir_nome(texto_ocr: str) -> tuple[str, str]:
             return (melhor_nome, "")
 
     if len(texto_limpo) > 2:
-        return (texto_limpo, 'revisar')
+        return (texto_limpo, "revisar")
 
-    return texto_limpo if texto_limpo else 'revisar'
+    return (texto_limpo if texto_limpo else "DESCONHECIDO", "revisar")

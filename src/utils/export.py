@@ -15,7 +15,11 @@ def exportar_csv(dados: list[dict], nome_arquivo: str = None):
     Path("output").mkdir(exist_ok=True)
     caminho_completo = Path("output") / nome_arquivo
 
-    colunas = list(dados[0].keys())
+    # ordem colunas
+    ordem_colunas = ['imagem_origem', 'nome', 'frequencia', 'dano', 'status']
+    colunas_existentes = list(dados[0].keys())
+    colunas_extras = [col for col in colunas_existentes if col not in ordem_colunas]
+    colunas = ordem_colunas + colunas_extras
 
     # escreve dados no arquivo csv
     with open(caminho_completo, 'w', newline='', encoding='utf-8-sig') as arquivo:
