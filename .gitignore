@@ -4,3 +4,6 @@ ocr_guild_rank/
 # arquivos compilados python
 __pycache__/
 *.pyc
+
+# pasta de saida
+output/

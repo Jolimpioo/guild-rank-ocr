@@ -1,9 +1,9 @@
 import cv2
 import pytesseract
+from pathlib import Path
 from src.utils.text_cleaning import limpar_campo
 from src.utils.name_matcher import corrigir_nome
-from src.config import REGIOES_BASE, INCREMENTO_Y
-from src.config import NUMERO_LINHAS
+from src.config import REGIOES_BASE, INCREMENTO_Y, NUMERO_LINHAS
 
 # funcao OCR
 def ocr_recorte(recorte, campo: str) -> str:
@@ -28,14 +28,17 @@ def ocr_recorte(recorte, campo: str) -> str:
     return texto
 
 # processamento imagem 
-def processar_imagem(caminho_imagem: str):
+def processar_imagem(caminho_imagem: str) -> list[dict]:
     # executa OCR e extrai dados da imagem
     img = cv2.imread(caminho_imagem)
     if img is None:
-        return
+        return []
+    
+    dados_extraidos = []
+    nome_imagem = Path(caminho_imagem).name
 
     for i in range(NUMERO_LINHAS):
-        resultados = []
+        linha_dados = {'imagem_origem': nome_imagem}
 
         for campo, (x, y, w, h) in REGIOES_BASE.items():
             y_atual = y + (INCREMENTO_Y * i)
@@ -48,7 +51,10 @@ def processar_imagem(caminho_imagem: str):
             else:
                 texto = limpar_campo(campo, texto)
 
-            resultados.append(texto if texto else "")
+            linha_dados[campo] = texto if texto else ""
 
-        if any(resultados):
-            print("|".join(resultados))
+        if linha_dados.get('nome'):
+            dados_extraidos.append(linha_dados)
+            print(f"{linha_dados['nome']:10} | {linha_dados.get('frequencia', 'N/A'):3} | {linha_dados.get('dano', '0'):10}")
+    
+    return dados_extraidos
